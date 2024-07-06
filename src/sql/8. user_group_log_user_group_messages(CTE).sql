@@ -17,11 +17,11 @@ with user_group_log as (
     group by luga.hk_group_id
 ),
 user_group_messages as (
-    select 
-        luga.hk_group_id, 
-        count(distinct luga.hk_user_id) as cnt_users_in_group_with_messages
-    from STV202406073__DWH.l_user_group_activity luga 
-    group by luga.hk_group_id
+	select lgd.hk_group_id,
+	       count(distinct lum.hk_user_id) as cnt_users_in_group_with_messages
+	from STV202406073__DWH.l_user_message lum 
+	right join STV202406073__DWH.l_groups_dialogs lgd on lum.hk_message_id = lgd.hk_message_id 
+	group by lgd.hk_group_id
 )
 select 
     ug.hk_group_id,

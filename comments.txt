@@ -1,0 +1,30 @@
+Приветствую, Карина!
+
+Для проекта были написаны два DAGа: 
+	project_get_the_file_v1.py, 
+	project_load_data_stg_v1.py.
+"project_get_the_file_v1.py" выполняет скачивание файла "group_log.csv" из s3 в дирректорию докер контейнера "/data/"
+"project_load_data_stg_v1.py" выполняет подключение к vertica при помощи функции "get_vertica_connection", прошу обратить внимание на то, что используется метод "BaseHook.get_hook"
+то есть, все параметры и креды пописаны в AirFlow Connections. Далее реализована функция "load_dataset_file_to_vertica", она позволяет создать DataFrame файла .csv 
+и затем при помощи SQL запроса записать данные в БД.
+
+И SQL запросы: 
+	1. group_log(create).sql,
+	2. l_user_group_activity(create).sql,
+	3. l_user_group_activity(insert).sql,
+	4. s_auth_history(create).sql,
+	5. s_auth_history(insert).sql,
+	6. user_group_messages(CTE).sql,
+	7. user_group_log(CTE).sql,
+	8. user_group_log_user_group_messages(CTE).sql.
+Выполнял их по порядку, так как они пронумерованы.
+
+По ходу прохождения спринта были созданы другие даги для скачивания файлов с последующим извлечнием и загрузкой данных в БД в папке dags_sprint6:
+	get_the_files_v1.py,
+	load_data_stg.py
+Так же в папке SQL_sprint6 находятся различные SQL запросы: create, insert, select.
+
+!!!РАБОТА НАД ОШИБКАМИ!!!
+В запросах "6. user_group_messages(CTE).sql" и "8. user_group_log_user_group_messages(CTE).sql" исправил выбор таблиц, теперь должны расчёты производиться корректно.
+Я опирался на такой принцип: нужно, что бы в выборке присутствовали группы, сообщения и пользователи, считаем по этой выборке всех уникальных пользователей и группируем по группам.
+	
